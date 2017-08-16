@@ -3,12 +3,12 @@
 
 ## 1. OS version & Environment
 ### 1.1 OS version
-	* Ubuntu Mate 16.04.03
+* Ubuntu Mate 16.04.03
 ### 1.2 Hardware
-	* Raspberry Pi 3
+* Raspberry Pi 3
 ### 1.3 Program Language
-	* Python
-	* C
+* Python
+* C
 
 ## 2. Modules
 ### 2.1 Wireless Lan Sniffing : "./wireless_sniffing/"
