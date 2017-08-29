@@ -13,7 +13,7 @@ import APscan
 class WifiSniffer:
 	def __init__(self):
 		self.wlan = WLAN()
-		self.APscanner = APscanner.APscanner(self.wlan)
+		self.APscanner = APscan.APscanner(self.wlan)
 		#self.DecSniffer = DecSniffer.DecSniffer(self.wlan)
 		self.is_apscan = False
 		self.is_decsniff = False
@@ -24,7 +24,7 @@ class WifiSniffer:
 		iface_list = self.get_wlan_iface_list()
 		iface_table = PrettyTable(['Index','Wlan Interface'])
 		for i in xrange(len(iface_list)):
-			iface_table.add_row(str(i), iface_list[i])
+			iface_table.add_row([str(i), iface_list[i]])
 		print iface_table
 
 		iface_index = int(raw_input("Please Select interface : "))

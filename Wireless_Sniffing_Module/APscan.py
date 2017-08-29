@@ -37,12 +37,11 @@ class APscanner:
 		print "[+] Channel : %s" % self.wlan.channel
 		
 		print "######################## AP info ###########################"
-		apinfo_table = PrettyTable(['SSID', 'STA_LIST', 'CHANNEL', 'ENC', 'DATA_COUNT','BSSID']
-		for i in xrange(len(ap_list)):
-			apinfo_table.add_row([ap[i].ssid, str(len(ap[i].sta_list)), ap[i].channel, ap[i].enc, str(ap[i].data_count), ap[i].bssid)
-
+		apinfo_table = PrettyTable(['SSID', 'STA_LIST', 'CHANNEL', 'ENC', 'DATA_COUNT','BSSID'])
+		for i in xrange(len(self.ap_list)):
+			apinfo_table.add_row([ap[i].ssid, str(len(ap[i].sta_list)), ap[i].channel, ap[i].enc, str(ap[i].data_count), ap[i].bssid])
 			for j in xrange(len(ap[i].sta_list)):
-				apinfo_table.add_row('sta%d'%j, '-', '-', '-', str(ap[i].sta_list[j].data_count), ap[i].sta_list[j].sta_mac)
+				apinfo_table.add_row(['sta%d'%j, '-', '-', '-', str(ap[i].sta_list[j].data_count), ap[i].sta_list[j].sta_mac])
 		print apinfo_table
 
 		self.wlan.change_channel()	## Channel hopping one by one in wlan class
