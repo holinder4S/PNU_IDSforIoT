@@ -39,9 +39,9 @@ class APscanner:
 		print "######################## AP info ###########################"
 		apinfo_table = PrettyTable(['SSID', 'STA_LIST', 'CHANNEL', 'ENC', 'DATA_COUNT','BSSID'])
 		for i in xrange(len(self.ap_list)):
-			apinfo_table.add_row([ap[i].ssid, str(len(ap[i].sta_list)), ap[i].channel, ap[i].enc, str(ap[i].data_count), ap[i].bssid])
+			apinfo_table.add_row([ap_list[i].ssid, str(len(ap_list[i].sta_list)), ap_list[i].channel, ap_list[i].enc, str(ap_list[i].data_count), ap_list[i].bssid])
 			for j in xrange(len(ap[i].sta_list)):
-				apinfo_table.add_row(['sta%d'%j, '-', '-', '-', str(ap[i].sta_list[j].data_count), ap[i].sta_list[j].sta_mac])
+				apinfo_table.add_row(['sta%d'%j, '-', '-', '-', str(ap_list[i].sta_list[j].data_count), ap_list[i].sta_list[j].sta_mac])
 		print apinfo_table
 
 		self.wlan.change_channel()	## Channel hopping one by one in wlan class
@@ -117,7 +117,7 @@ class get_apinfo_thread(Thread):
 			if not self.APscanner.is_aplist(ssid, bssid):
 				self.APscanner.ap_list.append(AP(ssid, bssid, channel, crypto))
 
-		elif pkt.haslayer(Dot11Qos):
+		elif pkt.haslayer(Dot11QoS):
 			ap = self.APscanner.is_aplist(pkt.addr1)
 			sta_mac = pkt.addr2
 			if not ap:
