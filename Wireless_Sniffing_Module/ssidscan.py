@@ -66,3 +66,11 @@ class channel_hopping_thread(Thread):
 	def exit(self):
 		self.__exit = True
 
+class ssid_sniffing_thread(Thread):
+	
+	def __init__(self, SSIDscanner):
+		Thread.__init__(self)
+		self.SSIDscanner = SSIDscanner
+		self.__exit = False
+
+	def run(self):
