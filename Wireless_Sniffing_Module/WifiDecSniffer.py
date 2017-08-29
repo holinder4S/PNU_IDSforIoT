@@ -65,4 +65,47 @@ class WifiSniffer:
 			interface_list = []
 		
 		return interface_list
-		
+
+class WLAN:
+	MAX_CHANNEL = 13
+	
+	def __init__(self):
+		self.interface = ''
+		self.mac = ''
+		self.channel = 1
+
+	def monitoring_start(self):
+		try:
+			p = Popen(['iwconfig', self.interface], stdout=PIPE, stderr=PIPE)
+		except OSError:
+			print "[ERROR] Could not execute 'iwconfig'"
+			exit(-1)
+
+		response = p.communicate()[0]
+		if response.find('Monitor') == -1:
+			try:
+				os.system('ifconfig %s down' % self.interface)
+				os.system('iwconfig %s mode monitor' % self.interface)
+				os.system('ifconfig %s up' % self.interface)
+			except:
+				print "[ERROR] Could not setting monitor mode"
+				exit(-1)
+
+	def set_interface(self, interface):
+		self.interface = interface
+		self.get_macaddr(self.interface)
+
+	def get_macaddr(self, interface):
+		# http://stackoverflow.com/questions/159137/getting-mac-address #
+		s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+		info = fcntl.ioctl(s.fileno(), 0x8927, struct.pack('256s', interface[:15]))
+		self.mac = ''.join(['%02x:' % ord(char) for char in info[18:24]])[:-1]
+
+	def change_channel(self, channel=-1):
+		# change channel one by one (max 13)
+		if channel == -1:
+			self.channel = (self.channel % self.MAX_CHANNEL) + 1
+		else:
+			self.channel = channel
+		os.system('iwconfig %s channel %d' % (self.interface, self.channel))
+
