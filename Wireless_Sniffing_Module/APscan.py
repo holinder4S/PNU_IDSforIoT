@@ -69,6 +69,7 @@ class channel_hopping_thread(Thread):
 			self.APscanner.print_apinfo()
 
 			if self.__exit:
+				print "[+] AP scanning stopped~!"
 				break
 	
 	def exit(self):
