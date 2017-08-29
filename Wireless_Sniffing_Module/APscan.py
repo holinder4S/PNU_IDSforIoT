@@ -46,7 +46,7 @@ class APscanner:
 
 		self.wlan.change_channel()	## Channel hopping one by one in wlan class
 	
-	def is_aplist(self, ssid='', bssid):
+	def is_aplist(self, ssid='', bssid=''):
 		ap = filter(lambda ap: ap.bssid == bssid, self.ap_list)
 		if not ap:
 			return False
