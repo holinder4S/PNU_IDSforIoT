@@ -117,6 +117,13 @@ class get_apinfo_thread(Thread):
 					return
 			ap.add_sta(sta_mac)
 
+	def apinfo_stop(self, pkt):
+		if self.__exit:
+			return True
+	
+	def exit(self):
+		self.__exit = True
+
 class AP:
         def __init__(self, ssid, bssid, channel, enc):
                 self.ssid = ssid
