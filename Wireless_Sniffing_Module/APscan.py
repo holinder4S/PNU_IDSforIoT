@@ -74,3 +74,46 @@ class get_apinfo_thread(Thread):
 		self.__exit = False
 
 	def run(self):
+		sniff(iface=self.APscanner.wlan.interface, prn=self.apinfo_sniff, stop_filter=self.apinfo_stop)
+
+	def apinfo_sniff(self, pkt):
+		if pkt.haslayer(Dot11Beacon) or pkt.haslayer(Dot11ProbeResp):
+			p = pkt[Dot11Elt]
+			cap = pkt.sprintf("{Dot11Beacon:%Dot11Beacon.cap%}"
+					  "{Dot11ProbeResp:%Dot11ProbeResp.cap%}").split('+')
+			crypto = []
+			while isinstance(p, Dot11Elt):
+				if p.ID == 0:
+					ssid = p.info
+				elif p.ID == 3:
+					try:
+						channel = ord(p.info)
+					except:
+						return
+				elif p.ID == 48:
+					crypto.append('WPA2')
+				elif p.ID == 221 and p.info.startswith('\x00P\xf2\x01\x01\x00'):
+					crypto.append('WPA')
+				p = p.payload
+			if not crypto:
+				if 'privacy' in cap:
+					crypto.append('WEP')
+				else:
+					crypto.append('OPEN')
+			bssid = pkt.addr3
+			crypto.sort()
+			crypto = '/'.join(crypto)
+			
+			if not self.APscanner.is_aplist(ssid, bssid):
+				self.APscanner.ap_list.append(AP(ssid, bssid, channel, crypto))
+
+		elif pkt.haslayer(Dot11Qos):
+			ap = self.APscanner.is_aplist(pkt.addr1)
+			sta_mac = pkt.addr2
+			if not ap:
+				ap = self.APscanner.is_aplist(pkt.addr2)
+				sta_mac = pkt.addr1
+				if not ap:
+					return
+			ap.add_sta(sta_mac)
+
