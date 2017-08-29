@@ -6,6 +6,7 @@ import logging
 logging.getLogger('scapy.runtime').setLevel(logging.ERROR)
 
 
+
 class SSIDscaner:
 	def __init__(self, wlan):
 		self.wlan = wlan
@@ -44,4 +45,5 @@ class SSIDscaner:
 
 			for j in xrange(len(ap[i].sta_list)):
 				apinfo_table.add_row('sta%d'%j, '-', '-', '-', str(ap[i].sta_list[j].data_count), ap[i].sta_list[j].sta_mac)
-
+		
+		self.wlan.channel_hopping()	## Channel hopping one by one in wlan class
