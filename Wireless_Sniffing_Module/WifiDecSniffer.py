@@ -30,9 +30,16 @@ class WifiSniffer:
 		iface_index = int(raw_input("Please Select interface : "))
 		self.wlan.set_interface(iface_list[iface_index])
 
+		print "[+] AP scanning started~!"
 		self.is_apscan = True
 		self.wlan.monitoring_start()
 		self.APscanner.start()
+
+	def APscan_stop(self):
+		if self.is_apscan:
+			self.is_apscan = False
+			self.APscanner.stop()
+			print "[+] AP scanning stopped~!"
 
 	def __thread_check(self):
 		if self.is_apscan:
