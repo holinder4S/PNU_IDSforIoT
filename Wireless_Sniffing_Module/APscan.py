@@ -45,7 +45,14 @@ class APscanner:
 		print apinfo_table
 
 		self.wlan.change_channel()	## Channel hopping one by one in wlan class
-
+	
+	def is_aplist(self, ssid='', bssid):
+		ap = filter(lambda ap: ap.bssid == bssid, self.ap_list)
+		if not ap:
+			return False
+		if ssid != '' and ap[0].ssid == '':
+			ap[0].ssid = ssid
+		return ap[0]
 
 class channel_hopping_thread(Thread):
 	INTERVAL = 0.5
@@ -77,6 +84,8 @@ class get_apinfo_thread(Thread):
 		sniff(iface=self.APscanner.wlan.interface, prn=self.apinfo_sniff, stop_filter=self.apinfo_stop)
 
 	def apinfo_sniff(self, pkt):
+		## Search AP info (using Beacon packet & probeResponse packet)
+		## Passive Scanning
 		if pkt.haslayer(Dot11Beacon) or pkt.haslayer(Dot11ProbeResp):
 			p = pkt[Dot11Elt]
 			cap = pkt.sprintf("{Dot11Beacon:%Dot11Beacon.cap%}"
@@ -104,6 +113,7 @@ class get_apinfo_thread(Thread):
 			crypto.sort()
 			crypto = '/'.join(crypto)
 			
+			## New AP Check
 			if not self.APscanner.is_aplist(ssid, bssid):
 				self.APscanner.ap_list.append(AP(ssid, bssid, channel, crypto))
 
