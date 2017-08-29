@@ -1,4 +1,5 @@
 import fcntl
+import time
 import os
 import re
 import socket
@@ -112,3 +113,5 @@ class WLAN:
 if __name__ == "__main__":
 	wifisniffer = WifiSniffer()
 	wifisniffer.APscan_start()
+	time.sleep(3)
+	wifisniffer.APscan_stop()
