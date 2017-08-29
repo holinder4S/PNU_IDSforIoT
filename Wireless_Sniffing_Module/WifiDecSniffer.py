@@ -58,7 +58,7 @@ class WifiSniffer:
 			exit(-1)
 		
 		response = p.communicate()[0]
-		interface_list = p[]
+		interface_list = []
 		try:
 			interface_list = map(lambda x: x[:-4].strip(' '), re.findall('([^\s].*IEEE)', response))
 		except:
@@ -109,3 +109,6 @@ class WLAN:
 			self.channel = channel
 		os.system('iwconfig %s channel %d' % (self.interface, self.channel))
 
+if __name__ == "__main__":
+	wifisniffer = WifiSniffer()
+	wifisniffer.APscan_start()
