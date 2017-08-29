@@ -43,7 +43,8 @@ class APscanner:
 
 			for j in xrange(len(ap[i].sta_list)):
 				apinfo_table.add_row('sta%d'%j, '-', '-', '-', str(ap[i].sta_list[j].data_count), ap[i].sta_list[j].sta_mac)
-		
+		print apinfo_table
+
 		self.wlan.channel_hopping()	## Channel hopping one by one in wlan class
 
 
