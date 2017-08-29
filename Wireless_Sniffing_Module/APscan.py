@@ -1,6 +1,7 @@
 from threading import Thread
 from scapy.all import *
 
+import os
 from prettytable import PrettyTable
 import logging
 logging.getLogger('scapy.runtime').setLevel(logging.ERROR)
@@ -36,6 +37,7 @@ class APscanner:
 	def print_apinfo(self):
 		print "[+] Channel : %s" % self.wlan.channel
 		
+		os.system('clear')
 		print "######################## AP info ###########################"
 		apinfo_table = PrettyTable(['SSID', 'STA_LIST', 'CHANNEL', 'ENC', 'DATA_COUNT','BSSID'])
 		for i in xrange(len(self.ap_list)):
