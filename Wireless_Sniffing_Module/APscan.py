@@ -15,6 +15,7 @@ class APscanner:
 		self.ap_list = []
 		
 	def start(self):
+		self.ap_list = []
 		if not (self.channel_hopping_thread and self.get_apinfo_thread):
 			self.channel_hopping_thread = channel_hopping_thread(self)
 			self.channel_hopping_thread.start()
@@ -31,8 +32,6 @@ class APscanner:
 			self.get_apinfo_thread.exit()
 			del self.get_apinfo_thread
 			self.get_apinfo_thread = None
-
-		self.ap_list = []
 
 	def print_apinfo(self):
 		print "[+] Channel : %s" % self.wlan.channel
