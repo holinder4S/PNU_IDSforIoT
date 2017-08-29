@@ -5,9 +5,7 @@ from prettytable import PrettyTable
 import logging
 logging.getLogger('scapy.runtime').setLevel(logging.ERROR)
 
-
-
-class SSIDscaner:
+class SSIDscanner:
 	def __init__(self, wlan):
 		self.wlan = wlan
 		conf.iface = self.wlan.interface
@@ -47,3 +45,24 @@ class SSIDscaner:
 				apinfo_table.add_row('sta%d'%j, '-', '-', '-', str(ap[i].sta_list[j].data_count), ap[i].sta_list[j].sta_mac)
 		
 		self.wlan.channel_hopping()	## Channel hopping one by one in wlan class
+
+
+class channel_hopping_thread(Thread):
+	INTERVAL = 0.5
+	
+	def __init__(self, SSIDscanner):
+		Thread.__init__(self)
+		self.SSIDscanner = SSIDscanner
+		self.__exit = False
+
+	def run(self):
+		while True:
+			time.sleep(self.INTERVAL)
+			self.SSIDscanner.print_apinfo()
+
+			if self.__exit:
+				break
+	
+	def exit(self):
+		self.__exit = True
+
