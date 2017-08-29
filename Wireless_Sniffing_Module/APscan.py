@@ -38,9 +38,9 @@ class APscanner:
 		
 		os.system('clear')
 		print "######################## AP info ###########################"
-		apinfo_table = PrettyTable(['SSID', 'STA_LIST', 'CHANNEL', 'ENC', 'DATA_COUNT','BSSID'])
+		apinfo_table = PrettyTable(['IDX', 'SSID', 'STA_CNT', 'CHANNEL', 'ENC', 'DATA_CNT','BSSID'])
 		for i in xrange(len(self.ap_list)):
-			apinfo_table.add_row([self.ap_list[i].ssid, str(len(self.ap_list[i].sta_list)), self.ap_list[i].channel, self.ap_list[i].enc, str(self.ap_list[i].data_count), self.ap_list[i].bssid])
+			apinfo_table.add_row([str(i), self.ap_list[i].ssid, str(len(self.ap_list[i].sta_list)), self.ap_list[i].channel, self.ap_list[i].enc, str(self.ap_list[i].data_count), self.ap_list[i].bssid])
 			for j in xrange(len(self.ap_list[i].sta_list)):
 				apinfo_table.add_row(['sta%d'%j, '-', '-', '-', str(self.ap_list[i].sta_list[j].data_count), self.ap_list[i].sta_list[j].sta_mac])
 		print apinfo_table
