@@ -117,3 +117,25 @@ class get_apinfo_thread(Thread):
 					return
 			ap.add_sta(sta_mac)
 
+class AP:
+        def __init__(self, ssid, bssid, channel, enc):
+                self.ssid = ssid
+                self.bssid = bssid
+                self.channel = str(channel)
+                self.enc = enc
+                self.data_count = 0
+                self.sta_list = []
+
+        def add_sta(self, sta_mac):
+                self.data_count += 1
+                sta = filter(lambda sta: sta.sta_mac == sta_mac, self.sta_list)
+
+                if not sta:
+                        self.sta_list.append(STATION(sta_mac))
+                else:
+                        sta[0].data_count += 1
+
+class STATION:
+        def __init__(self, sta_mac):
+                self.sta_mac = sta_mac
+                self.data_count = 1
