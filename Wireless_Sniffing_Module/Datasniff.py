@@ -51,4 +51,8 @@ class DataSniffer:
 			os.close(self.sniff_fd)
 			self.sniff_fd = None
 		self.deauth_list = []
-
+	
+	def __param_check(self):
+		conf_fd = open('config.txt', 'r')
+		
+		self.bssid = str(
