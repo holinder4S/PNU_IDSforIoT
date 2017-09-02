@@ -40,7 +40,6 @@ class WifiSniffer:
 		if self.is_apscan:
 			self.is_apscan = False
 			self.APscanner.stop()
-			print "[+] AP scanning stopped~!"
 
 	def __thread_check(self):
 		if self.is_apscan:
@@ -113,5 +112,8 @@ class WLAN:
 if __name__ == "__main__":
 	wifisniffer = WifiSniffer()
 	wifisniffer.APscan_start()
-	time.sleep(3)
+	time.sleep(5)
 	wifisniffer.APscan_stop()
+	
+	#wifisniffer.Datasniff_start()
+

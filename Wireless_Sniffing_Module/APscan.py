@@ -32,21 +32,41 @@ class APscanner:
 			self.get_apinfo_thread.exit()
 			del self.get_apinfo_thread
 			self.get_apinfo_thread = None
+		
+		print "[+] AP scanning stopped~!"
+		next_flag = raw_input("[+] Are you continue next stage?(y/n)")
+                if next_flag == 'y' or next_flag == 'Y':
+                        ap_index = int(raw_input("[+] What AP are you sniff? "))
+                        print "[+] configuration saving..."
+                        self.save_config(ap_index)
+                        print "[+] conf save done!"
+                elif next_flag == 'n' or next_flag == 'N':
+                        print "[+] Thank you~"
+                else:
+                        print "[ERROR] Wrong Input~!!!"
 
 	def print_apinfo(self):
-		print "[+] Channel : %s" % self.wlan.channel
-		
-		os.system('clear')
-		print "######################## AP info ###########################"
-		apinfo_table = PrettyTable(['IDX', 'SSID', 'STA_CNT', 'CHANNEL', 'ENC', 'DATA_CNT','BSSID'])
-		for i in xrange(len(self.ap_list)):
-			apinfo_table.add_row([str(i), self.ap_list[i].ssid, str(len(self.ap_list[i].sta_list)), self.ap_list[i].channel, self.ap_list[i].enc, str(self.ap_list[i].data_count), self.ap_list[i].bssid])
-			for j in xrange(len(self.ap_list[i].sta_list)):
-				apinfo_table.add_row(['sta%d'%j, '-', '-', '-', str(self.ap_list[i].sta_list[j].data_count), self.ap_list[i].sta_list[j].sta_mac])
-		print apinfo_table
+		if self.get_apinfo_thread is not None:
+			os.system('clear')
+			print "######################## AP info ###########################"
+			apinfo_table = PrettyTable(['IDX', 'SSID', 'STA_CNT', 'CHANNEL', 'ENC', 'DATA_CNT','BSSID'])
+			for i in xrange(len(self.ap_list)):
+				apinfo_table.add_row([str(i), self.ap_list[i].ssid, str(len(self.ap_list[i].sta_list)), self.ap_list[i].channel, self.ap_list[i].enc, str(self.ap_list[i].data_count), self.ap_list[i].bssid])
+				for j in xrange(len(self.ap_list[i].sta_list)):
+					apinfo_table.add_row(['sta%d'%j, '-', '-', '-', str(self.ap_list[i].sta_list[j].data_count), self.ap_list[i].sta_list[j].sta_mac])
+			print apinfo_table
+			print "[+] Channel : %s" % self.wlan.channel
 
-		self.wlan.change_channel()	## Channel hopping one by one in wlan class
+			self.wlan.change_channel()	## Channel hopping one by one in wlan class
 	
+	def save_config(self, ap_index):
+		config_fd = open("config.txt", "w")
+		config_fd.write("ssid : %s\n"%self.ap_list[ap_index].ssid)
+		config_fd.write("bssid : %s\n"%self.ap_list[ap_index].bssid)
+		config_fd.write("channel : %s\n"%self.ap_list[ap_index].channel)
+		config_fd.write("enc : %s\n"%self.ap_list[ap_index].enc)
+		config_fd.close()
+
 	def is_aplist(self, ssid='', bssid=''):
 		ap = filter(lambda ap: ap.bssid == bssid, self.ap_list)
 		if not ap:
@@ -69,7 +89,6 @@ class channel_hopping_thread(Thread):
 			self.APscanner.print_apinfo()
 
 			if self.__exit:
-				print "[+] AP scanning stopped~!"
 				break
 	
 	def exit(self):
