@@ -53,6 +53,26 @@ class DataSniffer:
 		self.deauth_list = []
 	
 	def __param_check(self):
-		conf_fd = open('config.txt', 'r')
+		config_fd = open('config.txt', 'r')
+		self.ssid = config_fd.readline()[7:]
+		self.bssid = config_fd.readline()[8:]
+		self.channel = config_fd.readline()[10:]
+		self.enc = config_fd.readline()[6:]
+		config_fd.close()
+	
+		self.key = raw_input("[+] Please Enter selected AP's Password : ")
+		deauth_tmp = raw_input("[+] Are you send deauth packet?(y/n) ")
+		if deauth_tmp = 'y' or deauth_tmp = 'Y':
+			self.deauth = True
+			self.sta_mac = raw_input("[+] Please Enter deauth packet's target MAC : ")
+		else:
+			self.deauth = False
+			self.sta_mac = ''
+
+		dump_tmp = raw_input("[+] Are you want Packet dump?(y/n) "
+		if dump_tmp = 'y' or dump_tmp = 'Y':
+			self.dump = True
+		else:
+			self.dump = False
+
 		
-		self.bssid = str(

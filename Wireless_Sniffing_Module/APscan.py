@@ -39,11 +39,15 @@ class APscanner:
                         ap_index = int(raw_input("[+] What AP are you sniff? "))
                         print "[+] configuration saving..."
                         self.save_config(ap_index)
-                        print "[+] conf save done!"
+                        print "[+] configuration saving done!"
+			
+			return True
                 elif next_flag == 'n' or next_flag == 'N':
                         print "[+] Thank you~"
+			return False
                 else:
                         print "[ERROR] Wrong Input~!!!"
+			return False
 
 	def print_apinfo(self):
 		if self.get_apinfo_thread is not None:

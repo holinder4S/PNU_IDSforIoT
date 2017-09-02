@@ -39,7 +39,8 @@ class WifiSniffer:
 	def APscan_stop(self):
 		if self.is_apscan:
 			self.is_apscan = False
-			self.APscanner.stop()
+			next_flag = self.APscanner.stop()
+			return next_flag
 
 	def __thread_check(self):
 		if self.is_apscan:
@@ -113,7 +114,10 @@ if __name__ == "__main__":
 	wifisniffer = WifiSniffer()
 	wifisniffer.APscan_start()
 	time.sleep(5)
-	wifisniffer.APscan_stop()
+	next_flag = wifisniffer.APscan_stop()
+
+	if next_flag:
+		print "go"
 	
 	#wifisniffer.Datasniff_start()
 
