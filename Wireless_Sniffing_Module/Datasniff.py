@@ -75,4 +75,41 @@ class DataSniffer:
 		else:
 			self.dump = False
 
+		if ((self.enc.find("WPA2") != -1) or (self.enc.find("WPA") != -1)) and (self.ssid == ''):
+			return "[ERROR] WPA/WPA2 encryption need SSID"
+		if (self.enc.find("OPEN") == -1) and (self.key == ''):
+			return "[ERROR] WEP/WPA/WPA2 encryption need key"
+		if (self.enc.find("WEP") != -1):
+			if len(self.key) not in [5,13]:
+				return "[ERROR] WEP key only has 5 or 13 length key"
+		elif (self.bssid.count('-') != 5) and (self.bssid.count(':') != 5):
+			return "[ERROR] Invalid BSSID"
+		elif (self.sta_mac != '') and ((self.sta_mac.count('-') != 5) or (self.sta_mac.count(':') != 5)):
+			return "[ERROR] Invalid STA MAC"
+
+		print "######################"
+		print "## AP info to sniff ##"
+		print "######################"
+		print "[*] AP's SSID : %s" % self.ssid
+		print "[*] AP's BSSID : %s" % self.bssid
+		print "[*] AP's CHANNEL : %s" % self.channel
+		print "[*] AP's ENC : %s" % self.enc
+		if self.key != '':
+			print "[*] AP's KEY : %s" % self.key
+		if self.sta_mac != '':
+			print "[*] Target Station's MAC : %s" % self.sta_mac
+		if self.deauth:
+			if (self.enc.find("OPEN") != -1) or (self.enc.find("WEP") != -1):
+				self.deauth = False
+			else:
+				print "[*] Send Deauthentication Packet~!"
+				conf.iface = self.wlan.interface
+		if self.dump:
+			if not os.path.exists('./dump')
+				os.mkdir('./dump')
+			dump_path = time.strftime('./dump/%m-%d(%H:%M:%S).pcap', time.localtime())
+			print "[*] Packet dump : %s" % dump_path
+			self.packet_dump = PcapWriter(dump_path, append=True, sync=True)
+
+
 		
