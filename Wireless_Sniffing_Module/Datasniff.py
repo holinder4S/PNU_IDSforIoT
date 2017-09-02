@@ -123,4 +123,72 @@ class DataSniffer:
 		ipv6_disable_path = '/proc/sys/net/ipv6/conf/%s/' % ifname
 		if os.path.exists(ipv6_disable_path):
 			os.system('echo 1 > %s/disable_ipv6' % ipv6_disable_path)
-		return
+		returna
+
+
+class DataSniffingThread(Thread):
+	def __init__(self, data_sniffer):
+		Thread.__init__(self)
+		self.__exit = False
+		self.data_sniffer = data_sniffer
+		self.packetdecrypter = PacketDecrypter()
+		self.session_list = []
+		self.ap_mac = self.data_sniffer.bssid
+
+	def run(self):
+		sniff(iface=self.data_sniffer.wlan.interface, prn=self.data_sniff, stop_filter=self.data_stop)
+
+	def data_sniff(self, pkt):
+		if pkt.haslayer(Dot11QoS):
+			if self.data_sniffer.sta_mac in [pkt.addr1, pkt.addr2, pkt.addr3] or self.data_sniffer.sta_mac == '':
+				if self.ap_mac = in [pkt.addr1, pkt.addr2, pkt.addr3]:
+					sta_mac = pkt.addr2 if pkt.addr1 == self.ap_mac else pkt.addr1
+					## WPA/WPA2 Encryption Case
+					if pkt.haslayer(EAPOL):
+						print "[+] to do implement"
+					## OPEN/WEP Case
+					else:
+						## OPEN
+						if self.data_sniffer.enc.find("OPEN") != -1:
+							de_pkt = pkt
+						else:
+							if not pkt.haslayer(Dot11WEP):
+								return
+							## WEP
+							wep_pkt = pkt.getlayer(Dot11WEP)
+							if self.data_sniffer.enc.find("WEP") != -1:
+								de_pkt = self.decrypter.unwep(wep_pkt, self.data_sniffer.key)
+							else:
+								print "[+] to do implement"
+						## packet send & dump
+						if de_pkt.haslayer(SNAP):
+							snap_data = de_pkt.getlayer(SNAP)
+							send_pkt = self.__make_ether(pkt, snap_data.code) / snap_data.payaload
+							self.data_sniffer.send_packet(send_pkt)
+							if self.sniffer.dump:
+								self.data_sniffer.pktdump.write(send_pkt)
+
+	def data_stop(self, pkt):
+		if self.__exit:
+			return True
+
+	def exit(self):
+		self.__exit = True
+
+	def __make_ether(self, pkt, code):
+		to_ds = 1 if pkt.FCfield & 0x1 else 0
+		from_ds = 1 if pkt.FCfield & 0x2 else 0
+		
+		## DA, SA, BSSID
+		if (to_ds == 0) and (from_ds == 0):
+			return Ether(src=pkt.addr2, dst=pkt.addr1, type=code)
+		## BSSID, SA, DA
+		elif (to_ds == 1) and (from_ds == 0):
+			return Ether(src=pkt.addr2, dst=pkt.addr3, type=code)
+		## DA, BSSID, SA
+		elif (to_ds == 0) and (from_ds == 1):
+			return Ether(src=pkt.addr3, dst=pkt.addr1, type=code)
+		## RA, TA, DA, SA
+		elif (to_ds == 1) and (from_ds == 1):
+			return Ether(src=pkt.addr4, dst=pkt.addr3, type=code)
+
