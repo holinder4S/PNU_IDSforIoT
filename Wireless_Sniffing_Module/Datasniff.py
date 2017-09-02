@@ -110,6 +110,17 @@ class DataSniffer:
 			dump_path = time.strftime('./dump/%m-%d(%H:%M:%S).pcap', time.localtime())
 			print "[*] Packet dump : %s" % dump_path
 			self.packet_dump = PcapWriter(dump_path, append=True, sync=True)
-
-
-		
+	
+	def __set_sniffing_interface(self):
+		try:
+			self.sniff_fd = os.open('/dv/net/tun', os.O_RDWR)
+			ifs = ioctl(self.sniff_fd, self.TUNSETIFF, struct.pack('16sH', 'PNUDSniface', self.IFF_TAP | self.IFF_NO_PI))
+			ifname = ifs[:16].strip("\x00")
+			os.system('ifconfig %s up' % ifname)
+			print "[+] '%s' is activated~!" % ifname)
+		except IOError:
+			return "[ERROR] Interface is busy now~!!!"
+		ipv6_disable_path = '/proc/sys/net/ipv6/conf/%s/' % ifname
+		if os.path.exists(ipv6_disable_path):
+			os.system('echo 1 > %s/disable_ipv6' % ipv6_disable_path)
+		return
