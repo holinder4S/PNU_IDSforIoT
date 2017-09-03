@@ -141,7 +141,7 @@ class DataSniffingThread(Thread):
 	def data_sniff(self, pkt):
 		if pkt.haslayer(Dot11QoS):
 			if self.data_sniffer.sta_mac in [pkt.addr1, pkt.addr2, pkt.addr3] or self.data_sniffer.sta_mac == '':
-				if self.ap_mac = in [pkt.addr1, pkt.addr2, pkt.addr3]:
+				if self.ap_mac in [pkt.addr1, pkt.addr2, pkt.addr3]:
 					sta_mac = pkt.addr2 if pkt.addr1 == self.ap_mac else pkt.addr1
 					## WPA/WPA2 Encryption Case
 					if pkt.haslayer(EAPOL):
