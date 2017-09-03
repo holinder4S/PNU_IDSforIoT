@@ -10,7 +10,7 @@ from Crypto.Cipher import ARC4, AES
 from pbkdf2 import PBKDF2
 from scapy.all import *
 
-logging.getLogger('scapy.runtime').setLevel(logging.ERRPR)
+logging.getLogger('scapy.runtime').setLevel(logging.ERROR)
 
 class DataSniffer:
 	TUNSETIFF = 0x400454ca
