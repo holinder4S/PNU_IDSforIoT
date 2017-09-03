@@ -73,7 +73,7 @@ class WifiSniffer:
 		if self.is_apscan:
 			print "[ERROR] APscan_thread is running!"
 			return True
-		elif self.is_decsniff: 
+		elif self.is_datasniff: 
 			print "[ERROR] DecSniff_thread is running!"
 			return True
 		return False
