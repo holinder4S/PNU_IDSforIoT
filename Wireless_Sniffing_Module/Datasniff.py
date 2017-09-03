@@ -123,7 +123,7 @@ class DataSniffer:
 		ipv6_disable_path = '/proc/sys/net/ipv6/conf/%s/' % ifname
 		if os.path.exists(ipv6_disable_path):
 			os.system('echo 1 > %s/disable_ipv6' % ipv6_disable_path)
-		returna
+		return
 
 
 class DataSniffingThread(Thread):
