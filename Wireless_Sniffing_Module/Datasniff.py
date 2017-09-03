@@ -117,7 +117,7 @@ class DataSniffer:
 			ifs = ioctl(self.sniff_fd, self.TUNSETIFF, struct.pack('16sH', 'PNUDSniface', self.IFF_TAP | self.IFF_NO_PI))
 			ifname = ifs[:16].strip("\x00")
 			os.system('ifconfig %s up' % ifname)
-			print "[+] '%s' is activated~!" % ifname)
+			print "[+] '%s' is activated~!" % ifname
 		except IOError:
 			return "[ERROR] Interface is busy now~!!!"
 		ipv6_disable_path = '/proc/sys/net/ipv6/conf/%s/' % ifname
