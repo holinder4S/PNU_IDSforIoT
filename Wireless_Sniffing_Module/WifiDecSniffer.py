@@ -135,7 +135,7 @@ class WLAN:
 			self.channel = (self.channel % self.MAX_CHANNEL) + 1
 		else:
 			self.channel = channel
-		os.system('iwconfig %s channel %d' % (self.interface, self.channel))
+		os.system('iwconfig %s channel %s' % (self.interface, self.channel))
 
 if __name__ == "__main__":
 	wifisniffer = WifiSniffer()
