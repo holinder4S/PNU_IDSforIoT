@@ -54,10 +54,10 @@ class DataSniffer:
 	
 	def __param_check(self):
 		config_fd = open('config.txt', 'r')
-		self.ssid = config_fd.readline()[7:]
-		self.bssid = config_fd.readline()[8:]
-		self.channel = config_fd.readline()[10:]
-		self.enc = config_fd.readline()[6:]
+		self.ssid = config_fd.readline()[7:-1]
+		self.bssid = config_fd.readline()[8:-1]
+		self.channel = config_fd.readline()[10:-1]
+		self.enc = config_fd.readline()[6:-1]
 		config_fd.close()
 	
 		self.key = raw_input("[+] Please Enter selected AP's Password : ")
@@ -198,4 +198,5 @@ class PacketDecrypter:
 		enc_data = wep_pkt.wepdata
 		rc4 = ARC4.new(iv + passphrase)
 		dec_data = rc4.decrypt(enc_data)
+		print dec_data
 		return LLC(dec_data)
