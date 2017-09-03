@@ -62,7 +62,7 @@ class DataSniffer:
 	
 		self.key = raw_input("[+] Please Enter selected AP's Password : ")
 		deauth_tmp = raw_input("[+] Are you send deauth packet?(y/n) ")
-		if deauth_tmp = 'y' or deauth_tmp = 'Y':
+		if deauth_tmp == 'y' or deauth_tmp == 'Y':
 			self.deauth = True
 			self.sta_mac = raw_input("[+] Please Enter deauth packet's target MAC : ")
 		else:
