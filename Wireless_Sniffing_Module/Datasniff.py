@@ -163,7 +163,7 @@ class DataSniffingThread(Thread):
 						## packet send & dump
 						if de_pkt.haslayer(SNAP):
 							snap_data = de_pkt.getlayer(SNAP)
-							send_pkt = self.__make_ether(pkt, snap_data.code) / snap_data.payaload
+							send_pkt = self.__make_ether(pkt, snap_data.code) / snap_data.payload
 							self.data_sniffer.send_packet(send_pkt)
 							if self.sniffer.dump:
 								self.data_sniffer.pktdump.write(send_pkt)
