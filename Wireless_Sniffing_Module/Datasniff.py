@@ -171,7 +171,7 @@ class DataSniffingThread(Thread):
 							snap_data = de_pkt.getlayer(SNAP)
 							send_pkt = self.__make_ether(pkt, snap_data.code) / snap_data.payload
 							self.data_sniffer.send_packet(send_pkt)
-							if self.sniffer.dump:
+							if self.data_sniffer.dump:
 								self.data_sniffer.pktdump.write(send_pkt)
 
 	def data_stop(self, pkt):
