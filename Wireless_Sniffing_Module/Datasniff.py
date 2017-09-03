@@ -157,7 +157,7 @@ class DataSniffingThread(Thread):
 							## WEP
 							wep_pkt = pkt.getlayer(Dot11WEP)
 							if self.data_sniffer.enc.find("WEP") != -1:
-								de_pkt = self.decrypter.unwep(wep_pkt, self.data_sniffer.key)
+								de_pkt = self.packetdecrypter.decryptWEP(wep_pkt, self.data_sniffer.key)
 							else:
 								print "[+] to do implement"
 						## packet send & dump
@@ -192,3 +192,10 @@ class DataSniffingThread(Thread):
 		elif (to_ds == 1) and (from_ds == 1):
 			return Ether(src=pkt.addr4, dst=pkt.addr3, type=code)
 
+class PacketDecrypter:
+	def decryptWEP(self, wep_pkt, passphrase):
+		iv = wep_pkt.iv
+		enc_data = wep_pkt.wepdata
+		rc4 = ARC4.new(iv + passphrase)
+		dec_data = rc4.decrypt(enc_data)
+		return LLC(dec_data)
