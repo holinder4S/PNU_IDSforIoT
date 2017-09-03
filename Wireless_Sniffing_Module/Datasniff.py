@@ -105,7 +105,7 @@ class DataSniffer:
 				print "[*] Send Deauthentication Packet~!"
 				conf.iface = self.wlan.interface
 		if self.dump:
-			if not os.path.exists('./dump')
+			if not os.path.exists('./dump'):
 				os.mkdir('./dump')
 			dump_path = time.strftime('./dump/%m-%d(%H:%M:%S).pcap', time.localtime())
 			print "[*] Packet dump : %s" % dump_path
