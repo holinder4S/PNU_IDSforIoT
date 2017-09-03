@@ -111,6 +111,12 @@ class DataSniffer:
 			print "[*] Packet dump : %s" % dump_path
 			self.packet_dump = PcapWriter(dump_path, append=True, sync=True)
 	
+	def send_packet(self, pkt):
+		try:
+			os.write(self.sniff_fd, str(pkt))
+		except:
+			pass
+	
 	def __set_sniffing_interface(self):
 		try:
 			self.sniff_fd = os.open('/dev/net/tun', os.O_RDWR)
