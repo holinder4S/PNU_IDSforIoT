@@ -15,7 +15,7 @@ class WifiSniffer:
 	def __init__(self):
 		self.wlan = WLAN()
 		self.APscanner = APscan.APscanner(self.wlan)
-		self.DataSniffer = DataSniff.DataSniffer(self.wlan)
+		self.DataSniffer = Datasniff.DataSniffer(self.wlan)
 		self.is_apscan = False
 		self.is_datasniff = False
 
