@@ -70,7 +70,7 @@ class DataSniffer:
 			self.sta_mac = ''
 
 		dump_tmp = raw_input("[+] Are you want Packet dump?(y/n) "
-		if dump_tmp = 'y' or dump_tmp = 'Y':
+		if dump_tmp == 'y' or dump_tmp == 'Y':
 			self.dump = True
 		else:
 			self.dump = False
