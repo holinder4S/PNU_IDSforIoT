@@ -9,7 +9,7 @@ from subprocess import Popen, PIPE
 from prettytable import PrettyTable
 
 import APscan
-#import DecSniffer
+import Datasniff
 
 class WifiSniffer:
 	def __init__(self):
@@ -17,7 +17,7 @@ class WifiSniffer:
 		self.APscanner = APscan.APscanner(self.wlan)
 		#self.DecSniffer = DecSniffer.DecSniffer(self.wlan)
 		self.is_apscan = False
-		self.is_decsniff = False
+		self.is_datasniff = False
 
 	def APscan_start(self):
 		if self.__thread_check():
@@ -41,6 +41,33 @@ class WifiSniffer:
 			self.is_apscan = False
 			next_flag = self.APscanner.stop()
 			return next_flag
+
+	def DataSniff_start(self):
+		if self.__thread_check():
+                        return
+                iface_list = self.get_wlan_iface_list()
+                iface_table = PrettyTable(['Index','Wlan Interface'])
+                for i in xrange(len(iface_list)):
+                        iface_table.add_row([str(i), iface_list[i]])
+                print iface_table
+
+                iface_index = int(raw_input("Please Select interface : "))
+                self.wlan.set_interface(iface_list[iface_index])
+
+                print "[+] Data sniffing started~!"
+                self.is_datasniff = True
+                self.wlan.monitoring_start()
+                data_sniff_status = self.DataSniffer.start()
+	
+		if data_sniff_status is not None:
+			print "[+] Data sniffing stoped"
+			self.is_datasniff = False
+
+	def DataSniff_stop(self):
+		if self.is_datasniff:
+			self.is_datasniff = False
+			self.DataSniffer.stop()
+			print "[+] Data sniffing stoped"
 
 	def __thread_check(self):
 		if self.is_apscan:
@@ -117,7 +144,14 @@ if __name__ == "__main__":
 	next_flag = wifisniffer.APscan_stop()
 
 	if next_flag:
-		print "go"
-	
-	#wifisniffer.Datasniff_start()
+		wifisniffer.DataSniff_start()
+		while 1:
+			datasniff_stop_flag = raw_input("[+] If you want Datasniff stop, Press 'y' : ")
+			if datasniff_stop_flag == 'y' or datasniff_stop_flag == 'Y':
+				wifisniffer.DataSniff_stop()
+				break
+			else:
+				print "[ERROR] Wrong Input~!"
+	print "[*] Program exited~!"
+	print "[*] Thank you for using WIFISniffer"
 
