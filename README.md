@@ -23,22 +23,22 @@
 	So we can see dashboard(website)
 
 ## 3. Installation & dependency
-	```bash
-	sudo pip install prettytable
-	sudo pip install scapy
-	sudo apt-get install python-pbkdf2
-	```
+```bash
+sudo pip install prettytable
+sudo pip install scapy
+sudo apt-get install python-pbkdf2
+```
 
 ## 4. Usage
 	1) cd ./PNU_IDSforIoT/Wireless_Sniffing_Module
 	2) sudo python WifiDecSniffer.py
 
 ## 5. Author
-	- Name : Woojin, Lee
-	- Nickname : holinder4s
-	- blog : holinder4s.tistory.com
+- Name : Woojin, Lee
+- Nickname : holinder4s
+- blog : holinder4s.tistory.com
 
 ## 6. Contact
-	- e-mail : holinder4s@gmail.com
+- e-mail : holinder4s@gmail.com
 
 
