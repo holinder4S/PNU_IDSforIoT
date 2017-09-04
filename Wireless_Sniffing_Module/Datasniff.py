@@ -204,5 +204,4 @@ class PacketDecrypter:
 		enc_data = wep_pkt.wepdata
 		rc4 = ARC4.new(iv + passphrase)
 		dec_data = rc4.decrypt(enc_data)
-		print dec_data
 		return LLC(dec_data)
