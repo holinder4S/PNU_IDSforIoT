@@ -8,26 +8,37 @@
 * Raspberry Pi 3
 ### 1.3 Program Language
 * Python
-* C
 
 ## 2. Modules
-### 2.1 Wireless Lan Sniffing : "./wireless_sniffing/"
-	to be added...
-### 2.2 IDS module(snort or BriarIDS) : "./ids_module/"
-	to be added...
+### 2.1 Wireless Lan Sniffing : "./Wireless_Sniffing_Module/"
+	This module is small Wireless Sniffing Tool in Raspberry Pi3
+	dump packet is input for IDS module
+	- Support encryption : OPEN, WEP
+	- Not Support encryption : WPA, WPA2
+### 2.2 IDS module(snort or BriarIDS) : "./Rpi3_IDS_Module/"
+	This module use packet that 'Wireless Lan Sniffing module' dump in wlan.
+	And use Malicious Packet Detection Rule.
 ### 2.3 IDS Control Server : "./IDS_Control_Server/"
-	to be added...
+	This module manage all of IDS(for IoT)
+	So we can see dashboard(website)
 
-## 3. Installation
-	to be added...
+## 3. Installation & dependency
+	```bash
+	sudo pip install prettytable
+	sudo pip install scapy
+	sudo apt-get install python-pbkdf2
+	```
 
 ## 4. Usage
-	to be added...
+	1) cd ./PNU_IDSforIoT/Wireless_Sniffing_Module
+	2) sudo python WifiDecSniffer.py
 
 ## 5. Author
-	to be added...
+	- Name : Woojin, Lee
+	- Nickname : holinder4s
+	- blog : holinder4s.tistory.com
 
 ## 6. Contact
-	to be added...
+	- e-mail : holinder4s@gmail.com
 
 
