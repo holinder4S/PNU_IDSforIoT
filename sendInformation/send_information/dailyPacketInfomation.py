@@ -1,3 +1,17 @@
+'''
+작성자 : DongKi Lee
+
+수정일 : 2018-06-20
+
+기능 :
+매일 전날까지 모인 패킷데이터에 관련된 정보를 DB에 다시 저장하는 모듈
+
+change log :
+
+need to change :
+1. 현재는 기능의 프로토타입 형식으로 제작이 되어 있다. 실제 구현으로 옮겨야함.
+'''
+
 import pymongo
 import time
 import datetime
@@ -26,7 +40,6 @@ def calculate_daily_packet(collection_name, weekday):
 saveDate = ''
 while (True):
     try:
-
         now = datetime.datetime.now()
         getYesterday = now - datetime.timedelta(days=1)
         weekday = getYesterday.weekday()

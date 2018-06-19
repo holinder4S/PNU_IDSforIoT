@@ -1,3 +1,17 @@
+'''
+작성자 : DongKi Lee
+
+수정일 : 2018-06-20
+
+기능 :
+IoT 디바이스의 패킷을 수집하고 전처리한 패킷데이터 파일을 읽어서 중앙 서버로 전송하는 모듈
+
+change log :
+
+need to change :
+1. 패킷을 서버로 보낼 때 보안적인 문제가 없는지 확인이 필요.
+'''
+
 from pymongo import MongoClient
 import json
 import time

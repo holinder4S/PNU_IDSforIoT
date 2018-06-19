@@ -1,3 +1,18 @@
+'''
+작성자 : DongKi Lee
+
+수정일 : 2018-06-20
+
+기능 :
+매일 전날까지 모인 데이터를 모아서 평균을 계산하고 DB에 다시 저장하는 모듈
+
+change log :
+
+need to change :
+1. 현재는 계속 반복하며, 날짜가 바뀔 때에 연산을 진행하도록 되어있다. 이를 crontab에 등록하고 루프를 없애는 것으로 변경하는 것이 낫다고 생각함.
+1-1. 이처럼 루프로 동작하는 모든 프로그램들을 하나로 모아서, crontab에 등록하는 쉘스크립트를 제작할 필요가 있음.
+'''
+
 import pymongo
 import time
 import datetime
@@ -40,11 +55,10 @@ def calculate_daily_average(collection_name, weekday):
 saveDate = ''
 while (True):
     try:
-
         now = datetime.datetime.now()
-        getYesterday = now - datetime.timedelta(days=1)
-        weekday = getYesterday.weekday()
-        collection_date = getYesterday.strftime('%m%d')
+        yesterday = now - datetime.timedelta(days=1)
+        weekday = yesterday.weekday()
+        collection_date = yesterday.strftime('%m%d')
         if saveDate != collection_date:
             calculate_daily_average(collection_date, weekday)
             saveDate = collection_date

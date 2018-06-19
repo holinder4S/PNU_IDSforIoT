@@ -1,3 +1,17 @@
+'''
+작성자 : DongKi Lee
+
+수정일 : 2018-06-20
+
+기능 :
+일정한 시간마다 한번씩 서버의 상태를 중앙 서버로 전송하는 모듈
+
+change log :
+
+need to change :
+1. 네트워크 값을 좀 더 정확하게 받아오는 코드로 변경할 필요성이 있다.
+'''
+
 from pymongo import MongoClient
 import time
 import psutil
