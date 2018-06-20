@@ -25,8 +25,6 @@ network = psutil.net_io_counters().packets_recv
 
 while(True):
     now = time.localtime()
-    day = ''
-    mon = ''
     if now.tm_mday <= 9:
         day = '0' + str(now.tm_mday)
     else:

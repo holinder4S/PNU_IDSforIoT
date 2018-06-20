@@ -29,11 +29,6 @@ while(True):
 
                     now = datetime.datetime.now()
                     date = now.strftime('%m%d')
-                    manufacture = ''
-                    data = ''
-                    data_len = ''
-                    lat = ''
-                    lon = ''
                     created_at = line['_source']['layers']['frame']['frame.time']
                     try:
                         manufacture_mac = line['_source']['layers']['eth']['eth.src_tree']['eth.src_resolved']
